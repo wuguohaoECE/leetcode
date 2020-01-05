@@ -99,4 +99,34 @@ public:
         return count;
     }
 };
-//leecode中给出更高效的办法，就是使用recursion来替代queue,这样可以不使用结构体pair<size_t, size_t>，具体见leecode
+
+//这个方法采用了dfs,而不是BFS.
+
+class Solution {
+public:
+    void DFS(vector<vector<char>>& grid, size_t i, size_t j, size_t size1, size_t size2){
+        grid[i][j] = '0';
+        if(i+1 < size1 && grid[i+1][j] == '1') DFS(grid, i+1, j, size1, size2);
+        if(j+1 < size2 && grid[i][j+1] == '1') DFS(grid, i, j+1, size1, size2);
+        if(i != 0 && grid[i-1][j] == '1') DFS(grid, i-1, j, size1, size2);
+        if(j != 0 && grid[i][j-1] == '1') DFS(grid, i, j-1, size1, size2);
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        size_t size1 = grid.size();
+        if(size1 == 0){
+            return 0;
+        }
+        size_t size2 = grid[0].size();
+        int count = 0;
+        for(size_t i = 0; i < size1; ++i){
+            for(size_t j = 0; j < size2; ++j){
+                if(grid[i][j] == '0'){
+                    continue;
+                }
+                DFS(grid, i, j, size1, size2);
+                ++count;
+            }
+        }
+        return count;
+    }
+};
