@@ -27,3 +27,35 @@ public:
         return dist;
     }
 };
+
+//第二种方法采用了BFS法。
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        size_t rows = matrix.size();
+        if(rows == 0) return vector<vector<int>>();
+        size_t cols = matrix[0].size();
+        vector<vector<int>> dist(rows, vector<int>(cols, INT_MAX-1));
+        queue<pair<int,int>> queue;
+        for(int i = 0; i < rows; ++i){
+            for(int j = 0; j < cols; ++j){
+                if(matrix[i][j] == 0) dist[i][j] = 0;
+                queue.push({i,j});
+            }
+        }
+        pair<int,int> curr;
+        int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+        while(!queue.empty()){
+            curr = queue.front(); queue.pop();
+            for(int i = 0; i < 4; ++i){
+                int first = curr.first + dir[i][0]; int second = curr.second + dir[i][1];
+                if(first > -1 && first < rows && second > -1 && second < cols &&
+                  dist[first][second] > dist[curr.first][curr.second] + 1){
+                    dist[first][second] = dist[curr.first][curr.second] + 1;
+                    queue.push({first,second});
+                }
+            }
+        }
+        return dist;
+    }
+};
