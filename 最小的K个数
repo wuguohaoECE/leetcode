@@ -1,0 +1,32 @@
+//O(n)算法，需要允许修改输入的数组。利用了Partition。  不知道为什么没有通过测试，超出时间
+class Solution {
+public:
+    vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
+        if(k > (int)input.size() || input.empty()) return input;
+        int start = 0; int end = input.size()-1;
+        int index = Partition(input, start, end);
+        while(index != k-1){
+            if(index < k-1){
+                start = index + 1;
+                index = Partition(input, start, end);
+            }
+            else {
+                end = index - 1;
+                index = Partition(input, start, end);
+            }
+        }
+        return vector<int>(input.begin(), input.begin()+k);
+    }
+    int Partition(vector<int>& input, int begin, int end){
+        int pivot = input[end];
+        int i = begin - 1;
+        for(int j = begin; j < end; ++j){
+            if(input[j] < pivot){
+                ++i;
+                swap(input[i], input[j]);
+            }
+        }
+        swap(input[i+1], input[end]);
+        return i+1;
+    }
+};
