@@ -1,0 +1,24 @@
+lass Solution {
+public:
+    vector<vector<int> > FindContinuousSequence(int sum) {
+        vector<vector<int>> out;
+        if(sum < 3) return out;
+        int i = 1; int j = 2;
+        while(i != j){
+            if((i+j)*(j-i+1) == 2*sum){
+                constructsequence(out,i,j);
+                ++i;++j;
+            }
+            else if ((i+j)*(j-i+1) < 2*sum) ++j;
+            else ++i;
+        }
+        return out;
+    }
+    void constructsequence(vector<vector<int>>& out, int i, int j){
+        vector<int> temp;
+        for(;i<=j;++i){
+            temp.push_back(i);
+        }
+        out.push_back(temp);
+    }
+};
