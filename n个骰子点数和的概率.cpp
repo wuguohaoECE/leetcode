@@ -21,6 +21,7 @@ void TossProbability(int n){
 
 //循环法，据说时间效率搞
 void PrintProbility(int n){
+    if(n < 1) return;
     vector<vector<int>> records(2, vector<int>(6*n+1, 0));
     int poi = 0;
     for(int i = 0; i < 6; ++i){
@@ -28,12 +29,12 @@ void PrintProbility(int n){
     }
     for(int i = 1; i < n; ++i){
         poi = 1 - poi;
-        for(int j = 0; j < i; ++j) records[poi][j] = 0;
+        for(int j = 0; j < 6*i+6; ++j) records[poi][j] = 0;
         for(int j = i; j < 6*i+6; ++j){
             for(int q = (j-6 > 0 ? j-6 : 0); q < j; ++q){
                 records[poi][j] += records[1-poi][q];
             }
-            cout << records[poi][j] << endl;
+            //cout << records[poi][j] << endl;
         }
     }
     int total = pow(6,n);
