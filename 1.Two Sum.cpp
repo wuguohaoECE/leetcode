@@ -11,6 +11,6 @@ public:
         if(i == size) {
             return vector<int>();
         }
-        return vector<int>({map[i], i});
+        return vector<int>({map[nums[i]], i});
     }
 };
