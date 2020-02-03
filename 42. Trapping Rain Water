@@ -1,0 +1,30 @@
+//暴力解法 O(n2) 
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int ans = 0;
+        int size = height.size();
+        for(int i = 0; i < size-2; ++i){
+            cout << "test" << endl;
+            if(height[i+1] > height[i]){
+                continue;
+            }
+            //此时 i+1 比 i 矮
+            int Max_height = height[i+1], Max_index = i+1, j = i+2;
+            for(; j < size; ++j){
+                if(height[j] >= Max_height){
+                    Max_height = height[j];
+                    Max_index = j;
+                    if(Max_height > height[i]) break;
+                }
+            }
+            if(Max_index == i+1) continue; //一直往右都没有比第二根高，第一根不能作为边。
+            int Min_height = min(height[i], Max_height);
+            for(int q = i+1; q < Max_index; ++q){
+                ans += Min_height - height[q];
+            }
+            i = Max_index - 1;
+        }
+        return ans;
+    }
+};
