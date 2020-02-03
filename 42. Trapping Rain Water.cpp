@@ -28,3 +28,27 @@ public:
         return ans;
     }
 };
+
+//因为其实每个index的存水量等于其左边最高的高度和右边最高的高度的较小值减去其本身。因此可以用两个vector记录每个index对应左边最高值和右边最高值。
+//时间O(3n) 空间O(2n)
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int size = height.size();
+        if(size < 3) return 0;
+        int ans = 0;
+        vector<int> Left_Max(size, 0), Right_Max(size, 0);
+        Left_Max[0] = height[0];
+        for(int i = 1; i < size; ++i){
+            Left_Max[i] = max(height[i], Left_Max[i-1]);
+        }
+        Right_Max[size-1] = height[size-1];
+        for(int i = size-2; i >= 0; --i){
+            Right_Max[i] = max(height[i], Right_Max[i+1]);
+        }
+        for(int i = 0; i < size; ++i){
+            ans += min(Left_Max[i], Right_Max[i]) - height[i];
+        }
+        return ans;
+    }
+};
