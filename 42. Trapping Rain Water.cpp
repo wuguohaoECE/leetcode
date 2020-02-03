@@ -52,3 +52,35 @@ public:
         return ans;
     }
 };
+//双指针法，时间O(n), 空间O(1)
+//对于index为i的柱子，只要其left_max比其右边任意一根柱子矮，那么i这跟柱子的存水量由left_max决定。
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int size = height.size();
+        if(size < 3) return 0;
+        int ans = 0;
+        int L = 0, Left_Max = height[0], R = size-1, Right_Max = height[size-1];
+        while(L < R){
+            if(height[L] < height[R]){
+                if(height[L] > Left_Max){
+                    Left_Max = height[L];
+                }
+                else{
+                    ans += Left_Max - height[L]; //Right_Max一定是大于Left_Max的，因为如果小于的话，也就是R遍历过程中没有一个比Left_Max高，那么L就不会动了。
+                }
+                ++L;
+            }
+            else{
+                if(height[R] > Right_Max){
+                    Right_Max = height[R];
+                }
+                else{
+                    ans += Right_Max -height[R];
+                }
+                --R;
+            }
+        }
+        return ans;
+    }
+};
