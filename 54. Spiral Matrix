@@ -1,0 +1,56 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ans;
+        int size1 = matrix.size();
+        if(size1 == 0) return ans;
+        int size2 = matrix[0].size();
+        helper(matrix, ans, 0, 0, size1, size2);
+        return ans;
+    }
+    void helper(vector<vector<int>>& matrix, vector<int>& ans, int starti, int startj, int size1, int size2){
+        if(size1 <= 0 || size2 <= 0) return;
+        for(int j = startj; j < startj + size2; ++j){
+            ans.push_back(matrix[starti][j]);
+        }
+        if(size1 == 1) return;
+        for(int i = starti+1; i < starti+size1 ; ++i){
+            ans.push_back(matrix[i][startj + size2 -1]);
+        }
+        if(size2 == 1) return;
+        for(int j = startj + size2 - 2; j >= startj; --j){
+            ans.push_back(matrix[starti + size1 -1][j]);
+        }
+        if(size1 < 3) return;
+        for(int i = starti+size1-2; i >= starti+1; --i){
+            ans.push_back(matrix[i][startj]);
+        }
+        if(size2 >= 3) helper(matrix, ans, starti+1, startj+1, size1-2, size2-2);
+    }
+};
+
+
+//leecode 大神代码666
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector <int> ans;
+        if(matrix.empty()) return ans; //若数组为空，直接返回答案
+        int u = 0; //赋值上下左右边界
+        int d = matrix.size() - 1;
+        int l = 0;
+        int r = matrix[0].size() - 1;
+        while(true)
+        {
+            for(int i = l; i <= r; ++i) ans.push_back(matrix[u][i]); //向右移动直到最右
+            if(++ u > d) break; //重新设定上边界，若上边界大于下边界，则遍历遍历完成，下同
+            for(int i = u; i <= d; ++i) ans.push_back(matrix[i][r]); //向下
+            if(-- r < l) break; //重新设定有边界
+            for(int i = r; i >= l; --i) ans.push_back(matrix[d][i]); //向左
+            if(-- d < u) break; //重新设定下边界
+            for(int i = d; i >= u; --i) ans.push_back(matrix[i][l]); //向上
+            if(++ l > r) break; //重新设定左边界
+        }
+        return ans;
+    }
+};
