@@ -1,0 +1,19 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        int total_gap = numRows > 1 ? (numRows-1)*2 :1;
+        string ans;
+        for(int i = 0; i < numRows; ++i){
+            int curr_gap = total_gap - 2 * i;
+            if(curr_gap == 0) curr_gap = total_gap;
+            int j = i;
+            while(j < s.length()){
+                ans.append(1, s[j]);
+                j += curr_gap;
+                curr_gap = total_gap - curr_gap;
+                if(curr_gap == 0) curr_gap = total_gap;
+            }
+        }
+        return ans;
+    }
+};
