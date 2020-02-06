@@ -1,0 +1,32 @@
+//There are a row of n houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.
+
+//The cost of painting each house with a certain color is represented by a n x 3 cost matrix. For example, costs[0][0] is the cost of painting house 0 with color red; costs[1][2] is the cost of painting house 1 with color green, and so on... Find the minimum cost to paint all houses.
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/paint-house
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+//这道题是简单的二维动态规划，当前最小值并不仅仅依赖上一个最小值，而是依赖上一个房子在不同颜色下的最小值。
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        if(costs.size() == 0) return 0;
+        int pre_0_min = 0, pre_1_min = 0, pre_2_min = 0, mincost = 0;
+        for(int i = 0; i < costs.size(); ++i){
+            int Min = INT_MAX;
+
+            int _0min = min(pre_1_min, pre_2_min) + costs[i][0];
+            if(_0min < Min) Min = _0min;
+
+            int _1min = min(pre_0_min, pre_2_min) + costs[i][1];
+            if(_1min < Min) Min = _1min;
+
+            int _2min = min(pre_0_min, pre_1_min) + costs[i][2];
+            if(_2min < Min) Min = _2min;
+
+            mincost = Min;
+            pre_0_min = _0min;
+            pre_1_min = _1min;
+            pre_2_min = _2min;
+        }
+        return mincost;
